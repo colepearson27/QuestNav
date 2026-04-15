@@ -209,7 +209,7 @@ namespace QuestNav.QuestNav.AprilTag
                                 + $"ratio={inlierRatio:F2} dist={avgTagDistance:F2}m stdDev={linearStdDev:F4}"
                         );
 
-                        poseEstimator.ResetPosition(frcPos, Time.timeAsDouble);
+                        AddVioObservation(frcPos, Time.timeAsDouble)
                     }
                 }
 
