@@ -50,12 +50,6 @@ jobs:
       # - name: Free Disk Space
       #   uses: ./.github/actions/quest-windows-free-disk-space
 
-      - name: Determine Version
-        id: version-info
-        uses: ./.github/actions/determine-version
-        with:
-          version: ${{ inputs.version }}
-
       - name: Setup Unity Environment
         uses: ./.github/actions/setup-unity-environment
         with:
