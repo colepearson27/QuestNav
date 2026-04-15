@@ -13,6 +13,7 @@ namespace QuestNav.QuestNav.Estimation
     {
         /// <summary>Returns the fused pose: KF-filtered translation with yaw-corrected VIO rotation.</summary>
         Pose3d EstimatedPose { get; }
+        Pose3d EstimatedPose2 { get; }
 
         /// <summary>True after the first accepted AprilTag observation has aligned the VIO frame to FRC.</summary>
         bool HasInitialAlignment { get; }
@@ -28,6 +29,7 @@ namespace QuestNav.QuestNav.Estimation
         /// subject to confidence-based gating.
         /// </summary>
         void AddAprilTagObservation(
+            Pose3d frcPose,
             Translation3d measuredPosition,
             Rotation3d measuredRotation,
             double timestampSeconds,
@@ -76,6 +78,7 @@ namespace QuestNav.QuestNav.Estimation
             }
         }
 
+        private Pose3d EstPose;
         private readonly LinkedList<VIOSnapshot> snapshotBuffer = new LinkedList<VIOSnapshot>();
         private readonly double bufferDuration;
 
@@ -133,6 +136,13 @@ namespace QuestNav.QuestNav.Estimation
             }
         }
 
+        public Pose3d EstimatedPose2 {
+            get {
+                QueuedLogger.Log($"Collecting estimated pose2: {EstPose}");
+                return EstPose;
+            }
+        }
+
         /// <inheritdoc/>
         public bool HasInitialAlignment => hasInitialAlignment;
 
@@ -175,6 +185,9 @@ namespace QuestNav.QuestNav.Estimation
             hasInitialAlignment = false;
             initialized = true;
 
+            QueuedLogger.Log($"Resetting to pose: {pose}");
+            EstPose = pose;
+
             snapshotBuffer.Clear();
             snapshotBuffer.AddLast(
                 new VIOSnapshot(timestamp, pose.Translation, pose.Rotation, x0.Clone())
@@ -213,6 +226,7 @@ namespace QuestNav.QuestNav.Estimation
 
         /// <inheritdoc/>
         public void AddAprilTagObservation(
+            Pose3d frcPose,
             Translation3d measuredPosition,
             Rotation3d measuredRotation,
             double timestampSeconds,
@@ -301,6 +315,7 @@ namespace QuestNav.QuestNav.Estimation
 
             // High-confidence correction — update position only, yaw is locked from Phase 1
             ApplyKfUpdate(measuredPosition, stdDevs, timestampSeconds);
+            ResetPosition(frcPose, timestampSeconds);
         }
 
         /// <inheritdoc/>

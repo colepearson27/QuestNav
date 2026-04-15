@@ -346,7 +346,7 @@ namespace QuestNav.Core
             networkTableConnection.PublishFrameData(
                 frameCount,
                 timeStamp,
-                vioAprilTagPoseEstimator.EstimatedPose,
+                vioAprilTagPoseEstimator.EstimatedPose2,
                 currentlyTracking
             );
 

@@ -195,6 +195,7 @@ namespace QuestNav.QuestNav.AprilTag
                         );
 
                         vioAprilTagPoseEstimator.AddAprilTagObservation(
+                            new Pose3d(frcPos.x, frcPos.y, frcPos.z, measuredRotation),
                             new Translation3d(frcPos.x, frcPos.y, frcPos.z),
                             measuredRotation,
                             captureTimestamp,
@@ -208,8 +209,6 @@ namespace QuestNav.QuestNav.AprilTag
                                 + $"tags={tagCount} inliers={poseLibResult.AcceptedPoints}/{poseLibResult.TotalPoints} "
                                 + $"ratio={inlierRatio:F2} dist={avgTagDistance:F2}m stdDev={linearStdDev:F4}"
                         );
-
-                        AddVioObservation(frcPos, Time.timeAsDouble)
                     }
                 }
 

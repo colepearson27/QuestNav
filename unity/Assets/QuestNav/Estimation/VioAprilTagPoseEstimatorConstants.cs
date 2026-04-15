@@ -18,7 +18,7 @@ namespace QuestNav.QuestNav.Estimation
         // --- Phase 1: Initial alignment gating ---
 
         /// <summary>Minimum number of detected tags to accept the first alignment observation.</summary>
-        public const int INITIAL_ALIGNMENT_MIN_TAGS = 1;
+        public const int INITIAL_ALIGNMENT_MIN_TAGS = 2;
 
         /// <summary>Minimum inlier ratio (acceptedPoints / totalPoints) for the first alignment.</summary>
         public const double INITIAL_ALIGNMENT_MIN_INLIER_RATIO = 0.6;
@@ -26,7 +26,7 @@ namespace QuestNav.QuestNav.Estimation
         // --- Phase 2: Ongoing correction gating ---
 
         /// <summary>Minimum number of detected tags for a Phase 2 correction to be accepted.</summary>
-        public const int CORRECTION_MIN_TAGS = 1;
+        public const int CORRECTION_MIN_TAGS = 3;
 
         /// <summary>Minimum inlier ratio for a Phase 2 correction to be accepted.</summary>
         public const double CORRECTION_MIN_INLIER_RATIO = 0.8;
